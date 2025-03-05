@@ -75,9 +75,10 @@ finance-tracker-ui/
 
 The application can be used with or without a backend. Here's how to set up the backend:
 
-1. Navigate to the backend directory:
+1. Clone and navigate to the backend directory:
    ```bash
-   cd ../finance-tracker-api
+   git clone https://github.com/arun143420/finance-tracker-api
+   cd finance-tracker-api
    ```
 
 2. Install dependencies:
@@ -96,10 +97,10 @@ The backend should be running on `http://localhost:4000` by default.
 
 ### 1. Standalone Mode (Development)
 
-This mode uses local data from `public/transactions.json` for testing and development:
+This mode uses local data from `public/sample-data.json` for testing and development:
 
 1. Set `REACT_APP_STANDALONE=true` in `.env.development`
-2. Ensure `public/transactions.json` contains valid sample data
+2. Ensure `public/ample-data.json` contains valid sample data
 3. Start the application:
    ```bash
    npm start
@@ -129,7 +130,7 @@ The application will make API calls to fetch real data.
 
 ## Sample Data Structure
 
-For standalone mode, ensure your `public/transactions.json` follows this structure:
+For standalone mode, ensure your `public/sample-data.json` follows this structure:
 
 ```json
 {
@@ -167,18 +168,7 @@ For standalone mode, ensure your `public/transactions.json` follows this structu
    - Ensure CORS is properly configured on the backend
 
 3. **Standalone Mode Issues**
-   - Verify `transactions.json` exists in the public folder
+   - Verify `sample-data.json` exists in the public folder
    - Check JSON structure matches the expected format
    - Ensure `REACT_APP_STANDALONE=true` is set
 
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
