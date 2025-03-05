@@ -1,70 +1,184 @@
-# Getting Started with Create React App
+# Finance Tracker Application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A React-based financial transaction tracking application that allows users to view, filter, and analyze their income and expenses.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- Transaction dashboard with summary statistics
+- Filter transactions by:
+  - Text search (description/category)
+  - Transaction type (income/expense)
+  - Category
+  - Date range
+- Real-time calculations of:
+  - Total Income
+  - Total Expenses
+  - Net Balance
+- Responsive design
+- Standalone mode for development/testing
 
-### `npm start`
+## Prerequisites
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Node.js (v14 or higher)
+- npm (v6 or higher)
+- Backend API (optional, for production use)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Project Structure
 
-### `npm test`
+```
+finance-tracker-ui/
+├── public/
+│   ├── sample-data.json    # Sample data for standalone mode
+│   └── index.html
+├── src/
+│   ├── App.js              # Main application component
+│   ├── doRequest.js        # API request handler
+│   └── App.css             # Styles
+├── .env                    # Production environment variables
+├── .env.development        # Development environment variables
+└── package.json
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Setup Instructions
 
-### `npm run build`
+1. Clone the repository:
+   ```bash
+   git clone git@github.com:arun143420/finance-tracker-ui.git
+   cd finance-tracker-ui
+   ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+3. Configure environment variables:
+   - For development with backend:
+     ```bash
+     # .env.development
+     REACT_APP_API_URL=http://localhost:4000
+     REACT_APP_STANDALONE=false
+     ```
+   - For development without backend (standalone mode):
+     ```bash
+     # .env.development
+     REACT_APP_API_URL=http://localhost:4000
+     REACT_APP_STANDALONE=true
+     ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+4. Start the development server:
+   ```bash
+   npm start
+   ```
 
-### `npm run eject`
+## Backend Setup
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+The application can be used with or without a backend. Here's how to set up the backend:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+1. Navigate to the backend directory:
+   ```bash
+   cd ../finance-tracker-api
+   ```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+3. Start the backend server:
+   ```bash
+   npm start
+   ```
 
-## Learn More
+The backend should be running on `http://localhost:4000` by default.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Testing Modes
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### 1. Standalone Mode (Development)
 
-### Code Splitting
+This mode uses local data from `public/transactions.json` for testing and development:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+1. Set `REACT_APP_STANDALONE=true` in `.env.development`
+2. Ensure `public/transactions.json` contains valid sample data
+3. Start the application:
+   ```bash
+   npm start
+   ```
 
-### Analyzing the Bundle Size
+The application will load data from the local JSON file instead of making API calls.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### 2. Backend Mode (Production)
 
-### Making a Progressive Web App
+This mode connects to the actual backend API:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+1. Set `REACT_APP_STANDALONE=false` in `.env`
+2. Ensure the backend server is running
+3. Start the application:
+   ```bash
+   npm start
+   ```
 
-### Advanced Configuration
+The application will make API calls to fetch real data.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## Environment Variables
 
-### Deployment
+| Variable | Description | Required | Default |
+|----------|-------------|----------|---------|
+| REACT_APP_API_URL | Backend API URL | Yes | http://localhost:4000 |
+| REACT_APP_STANDALONE | Enable standalone mode | No | false |
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## Sample Data Structure
 
-### `npm run build` fails to minify
+For standalone mode, ensure your `public/transactions.json` follows this structure:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```json
+{
+  "transactions": {
+    "data": [
+      {
+        "id": 1,
+        "date": "2024-03-01",
+        "description": "Salary",
+        "category": "Employment",
+        "type": "income",
+        "amount": 5000.00
+      }
+    ]
+  },
+  "summary": {
+    "data": {
+      "totalIncome": 5000.00,
+      "totalExpense": 166.49
+    }
+  }
+}
+```
+
+## Troubleshooting
+
+1. **Environment Variables Not Loading**
+   - Ensure all environment variables are prefixed with `REACT_APP_`
+   - Restart the development server after modifying environment files
+   - Check the console for environment variable values
+
+2. **API Connection Issues**
+   - Verify the backend server is running
+   - Check the API URL in environment variables
+   - Ensure CORS is properly configured on the backend
+
+3. **Standalone Mode Issues**
+   - Verify `transactions.json` exists in the public folder
+   - Check JSON structure matches the expected format
+   - Ensure `REACT_APP_STANDALONE=true` is set
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.

@@ -1,0 +1,60 @@
+{
+    "transactions": {
+        "data": [
+            {
+                "id": "8eb0b1e4-6012-43b7-9f0b-646576aead0b",
+                "type": "income",
+                "amount": 5000,
+                "category": "Salary",
+                "date": "2025-03-05T15:16:48.379Z",
+                "description": "Monthly salary"
+            },
+            {
+                "id": "5258efbc-07ee-45ad-b1aa-395be0dd0d15",
+                "type": "income",
+                "amount": 1000,
+                "category": "Freelance",
+                "date": "2025-03-05T15:16:48.379Z",
+                "description": "Freelance project payment"
+            },
+            {
+                "id": "cae2c52a-353d-4d4c-add0-e171fc2ff07f",
+                "type": "expense",
+                "amount": 1500,
+                "category": "Rent",
+                "date": "2025-03-05T15:16:48.379Z",
+                "description": "Monthly rent payment"
+            },
+            {
+                "id": "0f2e543c-b41c-495f-8ba2-fa6b01b7e7e3",
+                "type": "expense",
+                "amount": 300,
+                "category": "Food",
+                "date": "2025-03-05T15:16:48.379Z",
+                "description": "Grocery shopping"
+            },
+            {
+                "id": "eb93b4fa-bb99-4584-b67d-738c51f1c325",
+                "type": "expense",
+                "amount": 100,
+                "category": "Transportation",
+                "date": "2025-03-05T15:16:48.379Z",
+                "description": "Bus tickets"
+            },
+            {
+                "id": "ac12b86e-cd54-42c5-bf77-20681867a5b7",
+                "type": "expense",
+                "amount": 200,
+                "category": "Entertainment",
+                "date": "2025-03-05T15:16:48.379Z",
+                "description": "Movie tickets and dinner"
+            }
+        ]
+    },
+    "summary": {
+        "data": {
+            "totalIncome": 5000.00,
+            "totalExpense": 166.49
+        }
+    }
+}
