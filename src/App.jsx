@@ -1,115 +1,38 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { useTransactions } from './hooks/useTransactions';
+import { useTransactionSummary } from './hooks/useTransactionSummary';
+import { useTransactionFilters } from './hooks/useTransactionFilters';
 import './App.css';
-import { doRequest } from './doRequest';
+import { useEnvironment } from './hooks/useEnvironment';
 
 function App() {
-  const [transactions, setTransactions] = useState([]);
-  const [summary, setSummary] = useState({
-    totalIncome: 0,
-    totalExpense: 0
-  });
-  const [filters, setFilters] = useState({
-    text: '',
-    type: 'all',
-    category: 'all',
-    dateRange: {
-      start: '',
-      end: ''
-    }
-  });
-  const [uiState, setUiState] = useState({
-    loading: true,
-    error: null
-  });
-
-  useEffect(() => {
-    fetchTransactions();
-    fetchSummary();
-
-  }, []);
+  const { transactions, loading: transactionsLoading, error: transactionsError } = useTransactions();
+  const { summary, loading: summaryLoading, error: summaryError } = useTransactionSummary();
+  const { filters, updateFilter, filteredTransactions, categories } = useTransactionFilters(transactions);
+  const { showIndicator, isStandalone, envFile } = useEnvironment();
 
 
-
-  const fetchTransactions = async () => {
-    try {
-      setUiState(prev => ({ ...prev, loading: true }));
-      const response = await doRequest(`/api/transactions`);
-      setTransactions(response.data["data"]);
-      setUiState(prev => ({ ...prev, error: null }));
-    } catch (err) {
-      setUiState(prev => ({
-        ...prev,
-        error: 'Failed to fetch transactions. Please try again later.'
-      }));
-      console.error('Error fetching transactions:', err);
-    } finally {
-      setUiState(prev => ({ ...prev, loading: false }));
-    }
-  };
-
-  const fetchSummary = async () => {
-    try {
-      const response = await doRequest('/api/transactions/summary')
-      setSummary({
-        totalIncome: response.data["data"]["totalIncome"],
-        totalExpense: response.data["data"]["totalExpense"]
-      });
-    } catch (err) {
-      setUiState(prev => ({
-        ...prev,
-        error: 'Failed to fetch summary. Please try again later.'
-      }));
-      console.error('Error fetching summary:', err);
-    }
-  };
-
-  const updateFilter = (filterType, value) => {
-    if (filterType === 'startDate' || filterType === 'endDate') {
-      setFilters(prev => ({
-        ...prev,
-        dateRange: {
-          ...prev.dateRange,
-          [filterType === 'startDate' ? 'start' : 'end']: value
-        }
-      }));
-    } else {
-      setFilters(prev => ({
-        ...prev,
-        [filterType]: value
-      }));
-    }
-  };
-
-  const filteredTransactions = transactions.filter(transaction => {
-    const matchesText = transaction.description.toLowerCase().includes(filters.text.toLowerCase()) ||
-      transaction.category.toLowerCase().includes(filters.text.toLowerCase());
-
-    const matchesType = filters.type === 'all' || transaction.type.toLowerCase() === filters.type.toLowerCase();
-
-    const matchesCategory = filters.category === 'all' || transaction.category.toLowerCase() === filters.category.toLowerCase();
-
-    const transactionDate = new Date(transaction.date);
-    const matchesDateRange = (!filters.dateRange.start || transactionDate >= new Date(filters.dateRange.start)) &&
-      (!filters.dateRange.end || transactionDate <= new Date(filters.dateRange.end));
-
-    return matchesText && matchesType && matchesCategory && matchesDateRange;
-  });
-
-  // Get unique categories for the filter dropdown
-  const categories = ['all', ...new Set(transactions.map(t => t.category))];
-
-  if (uiState.loading) {
+  if (transactionsLoading || summaryLoading) {
     return <div className="loading">Loading...</div>;
   }
 
-  if (uiState.error) {
-    return <div className="error">{uiState.error}</div>;
+  if (transactionsError || summaryError) {
+    return <div className="error">{transactionsError || summaryError}</div>;
   }
 
   return (
     <div className="container">
+      {showIndicator && (
+        <div className="env-indicator">
+          <span className="env-label">Environment:</span>
+          <span className={`env-value ${isStandalone ? 'standalone' : 'api'}`}>
+            {isStandalone ? 'Standalone Mode' : 'API Mode'}
+          </span>
+          <span className="env-file">({envFile})</span>
+        </div>
+      )}
       <h1>Transaction Dashboard</h1>
-
+      
       <div className="filter-section">
         <div className="filter-row">
           <input
